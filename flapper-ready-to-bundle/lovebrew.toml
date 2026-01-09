@@ -14,6 +14,6 @@ icons = {ctr = "Flapper-Icon.png"}
 # targets = ["ctr", "hac", "cafe"]
 targets = ["ctr"]
 # source = "game"
-source = "flapper-ready-to-bundle"
+source = "bundle"
 # packaged = false
 packaged = true
