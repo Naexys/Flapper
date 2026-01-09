@@ -8,12 +8,12 @@ description = "A Flappy Bird clone"
 # version = "0.1.0" # current version, obeying semver
 version = "0.1.0"
 # icons = { ctr = "", hac = "", cafe = "" } # custom icon paths
-icons = {ctr = "Flapper-Icon.png"}
+icons = {ctr = "Flapper-Icon.png", hac = "Flapper-Icon.png"}
 
 [build]
 # targets = ["ctr", "hac", "cafe"]
-targets = ["ctr"]
+targets = ["ctr", "hac"]
 # source = "game"
-source = "bundle"
+source = "game"
 # packaged = false
 packaged = true
