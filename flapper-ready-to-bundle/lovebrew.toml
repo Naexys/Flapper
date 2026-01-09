@@ -1,0 +1,19 @@
+[metadata]
+# title = "SuperGame" # title of the game
+title = "Flapper"
+# author = "SuperAuthor" # author(s) of the game
+author = "Naexys"
+# description = "SuperDescription" # description of the game
+description = "A Flappy Bird clone"
+# version = "0.1.0" # current version, obeying semver
+version = "0.1.0"
+# icons = { ctr = "", hac = "", cafe = "" } # custom icon paths
+icons = {ctr = "Flapper-Icon.png"}
+
+[build]
+# targets = ["ctr", "hac", "cafe"]
+targets = ["ctr"]
+# source = "game"
+source = "flapper-ready-to-bundle"
+# packaged = false
+packaged = true
