@@ -6,6 +6,8 @@ love.graphics.set3D(false)
 -- Initialize variables
 local score
 local playcount
+local highscore
+local player
 
 -- Array to keep track of touches data
 local touches = {}
@@ -20,21 +22,14 @@ function love.touchreleased(id, x, y, dx, dy, pressure)
     touches[id] = nil
 end
 
--- Deal with touch movement
-function love.touchmoved(id, x, y, dx, dy, pressure)
-    touches[id] = {x = x, y = y}
-end
-
-
 -- Function to initialize the game
 function love.load()
-    score = 0
-    playcount = 0
+    
 end
 
 -- Function to calculate each frame
 function love.update(dt)
-    local caca = 0
+    
 end
 
 -- Function to draw the calculated frame
@@ -47,11 +42,14 @@ function love.draw(screen)
 
     -- Draw on bottom screen
     if screen ~= "top" then
-        local caca = 0
+        local width, height = love.graphics.getDimensions(screen)
+        love.graphics.print("Press Start to quit.", 0, 0)
     end
 end
 
 -- Function to check for input
 function love.gamepadpressed(joystick, button)
-    love.event.quit()
+    if button == "start" then
+        love.event.quit()
+    end
 end
