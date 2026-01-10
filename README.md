@@ -7,7 +7,8 @@ If you can't wait for the next release (which I strongly advise) you can build t
 
 Just run the script and upload the obtained "bundle.zip" to this website
 https://bundler.nawiasdev.eu/
-! The script requires you to have 7zip installed on your machine
+
+The script requires you to have 7zip installed on your machine
 
 The obtained file (another bundle.zip I believe) will contain the playable .3dsx file.
 
