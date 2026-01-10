@@ -27,6 +27,6 @@ I think it is important to be transparent on this topic
 
 Some AI was used during the making of this game :
 - The Batch file used to bundle the game in a zip was AI generated
-- I used (not so often) the in-line suggestions from Copilot to correct som of my mistakes since it is the first time i code in Lua
+- I used (not so often) the in-line suggestions from Copilot to correct some of my mistakes since it is the first time i code in Lua
 
 The list may expand (though my ego thinks I can do most of the work without using AI) but for now that's it.
