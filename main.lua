@@ -3,13 +3,37 @@
 -- Deactivate 3D mode
 love.graphics.set3D(false)
 
+-- Initialize variables
+local score
+local playcount
+
+-- Array to keep track of touches data
+local touches = {}
+
+-- Deal with touch input
+function love.touchpressed(id, x, y, dx, dy, pressure)
+    touches[id] = {x = x, y = y}
+end
+
+-- Deal with touch release
+function love.touchreleased(id, x, y, dx, dy, pressure)
+    touches[id] = nil
+end
+
+-- Deal with touch movement
+function love.touchmoved(id, x, y, dx, dy, pressure)
+    touches[id] = {x = x, y = y}
+end
+
+
 -- Function to initialize the game
 function love.load()
-    local caca = 0
+    score = 0
+    playcount = 0
 end
 
 -- Function to calculate each frame
-function love.update()
+function love.update(dt)
     local caca = 0
 end
 
