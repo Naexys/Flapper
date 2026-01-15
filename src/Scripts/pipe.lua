@@ -20,24 +20,45 @@ function newPipe(screen_width, screen_height)
 end
 
 -- Function to return new pipe coordinates after movement
-function movePipe(x1, x2)
+function movePipe(pipeObject)
+    ----------
+    -- Need to implement movement
+    ----------
     return x1, x2
 end
 
 -- Function to draw the given pipe
-function drawPipe(x1, y1, width1, height1, x2, y2, width2, height2)
-    love.graphics.rectangle("fill", x1, y1, width1, height1, 5, 5)
-    love.graphics.rectangle("fill", x2, y2, width2, height2, 5, 5)
+function drawPipe(pipeObject)
+    love.graphics.rectangle("fill", pipeObject.x1, pipeObject.y1, pipeObject.width1, pipeObject.height1, 5, 5)
+    love.graphics.rectangle("fill", pipeObject.x2, pipeObject.y2, pipeObject.width2, pipeObject.height2, 5, 5)
+end
+
+-- Function to check if a point is in a rectangle
+local function isIn(xPoint, yPoint, xRect, yRect, width,  height)
+    if xRect <= xPoint and xPoint <= (xRect + width) then
+        if xRect <= yPoint and yPoint <= (yRect + height) then
+            return true
+        end
+    end
+    return false
 end
 
 -- Function to check for collision between the player and the given pipe
-function pipeCollide(x, y, screen_height)
+function isPipeColliding(x, y, screen_height, pipeObject)
     local playerSize = (screen_height / 20)
-    playerCorners = {
+    local playerCorners = {
         {x = x - playerSize, y = y - playerSize},
         {x = x - playerSize, y = y + playerSize},
         {x = x + playerSize, y = y - playerSize},
         {x = x + playerSize, y = y + playerSize}
     }
-    -- Add loop in the player corners and check if any of them is in the pipe
+    for i, corner in ipairs(playerCorners) do
+        if isIn(unpack(corner), pipeObject.x1, pipeObject.y1, pipeObject.width1, pipeObject.height1) then
+            return true
+        end
+        if isIn(unpack(corner), pipeObject.x2, pipeObject.y2, pipeObject.width2, pipeObject.height2) then
+            return true
+        end
+    end
+    return false
 end
