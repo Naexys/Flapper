@@ -14,7 +14,7 @@ local player = {
     x = 0,
     y = 0,
     speed = 0,
-    maxSpeed = 100
+    maxSpeed = 200
 }
 local pipes = {}
 local lastPipe = 0
@@ -31,7 +31,7 @@ function love.touchpressed(id, x, y, dx, dy, pressure)
         x = x,
         y = y
     }
-    player.speed = -100
+    player.speed = -200
     if gameState ~= "gameOver" then
         gameState = "play"
     end
@@ -56,7 +56,7 @@ function movePlayer(dt)
     elseif player.y > heightTop - (widthTop / 20) then
         player.y = heightTop - (widthTop / 20)
     end
-    player.speed = player.speed + 100 * dt
+    player.speed = player.speed + 200 * dt
     if player.speed > player.maxSpeed then
         player.speed = player.maxSpeed
     end
