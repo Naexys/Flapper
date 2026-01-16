@@ -66,10 +66,39 @@ function drawPlayer()
         10, 10)
 end
 
+-- Function to handle pipes
+function handlePipes(dt)
+    if lastPipe == 0 then
+        pipes.insert(newPipe(widthTop, heightTop))
+        lastPipe = lastPipe + dt
+    else
+        lastPipe = lastPipe + dt
+        if lastPipe >= 2.5 then
+            lastPipe = 0
+        end
+    end
+    local pipesToRemove = {}
+    for i, p in ipairs(pipes) do
+        pipe.movePipe(p, dt)
+        if pipe.isPipeColliding(player.x, player.y, heightTop, p) then
+            ----------
+            -- Add collision consequence
+            ----------
+        end
+        if pipe.shouldDestroy(p) then
+            pipesToRemove.insert(i)
+        end
+    end
+    for i, id in ipairs(pipesToRemove) do
+        table.remove(pipes, id)
+    end
+end
+
 -- Function to calculate each frame
 function love.update(dt)
     if gameState == "play" then
         movePlayer(dt)
+        handlePipes(dt)
     end
 end
 
