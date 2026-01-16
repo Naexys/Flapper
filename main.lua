@@ -6,6 +6,7 @@ local pipe = require "src.Scripts.pipe"
 love.graphics.set3D(false)
 
 -- Initialize variables
+local gameState = "pause"
 local score = 0
 local playcount = 0
 local highscore = 0
@@ -13,11 +14,13 @@ local player = {
     x = 0,
     y = 0,
     speed = 0,
-    maxSpeed = 100
+    maxSpeed = 200
 }
+local pipes = {}
+local lastPipe = 0
 
-local width_top, height_top = love.graphics.getDimensions("top")
-local width_bottom, height_bottom = love.graphics.getDimensions("bottom")
+local widthTop, heightTop = love.graphics.getDimensions("top")
+local widthBottom, heightBottom = love.graphics.getDimensions("bottom")
 
 -- Array to keep track of touches data
 local touches = {}
@@ -28,7 +31,10 @@ function love.touchpressed(id, x, y, dx, dy, pressure)
         x = x,
         y = y
     }
-    player.speed = -100
+    player.speed = -200
+    if gameState ~= "gameOver" then
+        gameState = "play"
+    end
 end
 
 -- Deal with touch release
@@ -38,19 +44,19 @@ end
 
 -- Function to initialize the game
 function love.load()
-    player.x = width_top / 2
-    player.y = height_top / 2
+    player.x = widthTop / 2
+    player.y = heightTop / 2
 end
 
 -- Function to update the player's position
 function movePlayer(dt)
     player.y = player.y + player.speed * dt
-    if player.y < (width_top / 20) then
-        player.y = (width_top / 20)
-    elseif player.y > height_top - (width_top / 20) then
-        player.y = height_top - (width_top / 20)
+    if player.y < (widthTop / 20) then
+        player.y = (widthTop / 20)
+    elseif player.y > heightTop - (widthTop / 20) then
+        player.y = heightTop - (widthTop / 20)
     end
-    player.speed = player.speed + 100 * dt
+    player.speed = player.speed + 200 * dt
     if player.speed > player.maxSpeed then
         player.speed = player.maxSpeed
     end
@@ -58,13 +64,42 @@ end
 
 -- Function to draw the player
 function drawPlayer()
-    love.graphics.rectangle("fill", player.x - width_top / 20, player.y - width_top / 20, width_top / 10,
-        width_top / 10, 10, 10)
+    love.graphics.rectangle("fill", player.x - widthTop / 20, player.y - widthTop / 20, widthTop / 10, widthTop / 10,
+        10, 10)
+end
+
+-- Function to handle pipes
+function handlePipes(dt)
+    if lastPipe == 0 then
+        pipes.insert(newPipe(widthTop, heightTop))
+        lastPipe = lastPipe + dt
+    else
+        lastPipe = lastPipe + dt
+        if lastPipe >= 2.5 then
+            lastPipe = 0
+        end
+    end
+    local pipesToRemove = {}
+    for i, p in ipairs(pipes) do
+        pipe.movePipe(p, dt)
+        if pipe.isPipeColliding(player.x, player.y, heightTop, p) then
+            gameState = "gameOver"
+        end
+        if pipe.shouldDestroy(p) then
+            pipesToRemove.insert(i)
+        end
+    end
+    for i, id in ipairs(pipesToRemove) do
+        table.remove(pipes, id)
+    end
 end
 
 -- Function to calculate each frame
 function love.update(dt)
-    movePlayer(dt)
+    if gameState == "play" then
+        movePlayer(dt)
+        handlePipes(dt)
+    end
 end
 
 -- Function to draw the calculated frame
@@ -72,11 +107,15 @@ function love.draw(screen)
     -- Draw on top screen
     if screen ~= "bottom" then
         drawPlayer()
+        for i, p in ipairs(pipes) do
+            pipe.drawPipe(p)
+        end
     end
 
     -- Draw on bottom screen
     if screen ~= "top" then
         love.graphics.print("Press Start to quit.", 0, 0)
+        love.graphics.print("Press Select to pause.", 0, 20)
     end
 end
 
@@ -84,5 +123,8 @@ end
 function love.gamepadpressed(joystick, button)
     if button == "start" then
         love.event.quit()
+    end
+    if button == "select" then
+        gameState = "pause"
     end
 end
