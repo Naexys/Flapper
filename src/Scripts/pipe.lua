@@ -1,10 +1,15 @@
 -- File: pipe.lua
-
 -- Function to create and return a pipe object
 function newPipe(screen_width, screen_height)
     local pipeObject = {
-        x1 = 0, y1 = 0, width1 = 0, height1 = 0,
-        x2 = 0, y2 = 0, width2 = 0, height2 = 0
+        x1 = 0,
+        y1 = 0,
+        width1 = 0,
+        height1 = 0,
+        x2 = 0,
+        y2 = 0,
+        width2 = 0,
+        height2 = 0
     }
     local pipeWidth = screen_width / 10
     local pipeHeight = math.random(screen_height / 10, (screen_height / 10) * 6)
@@ -34,7 +39,7 @@ function drawPipe(pipeObject)
 end
 
 -- Function to check if a point is in a rectangle
-local function isIn(xPoint, yPoint, xRect, yRect, width,  height)
+local function isIn(xPoint, yPoint, xRect, yRect, width, height)
     if xRect <= xPoint and xPoint <= (xRect + width) then
         if xRect <= yPoint and yPoint <= (yRect + height) then
             return true
@@ -46,12 +51,19 @@ end
 -- Function to check for collision between the player and the given pipe
 function isPipeColliding(x, y, screen_height, pipeObject)
     local playerSize = (screen_height / 20)
-    local playerCorners = {
-        {x = x - playerSize, y = y - playerSize},
-        {x = x - playerSize, y = y + playerSize},
-        {x = x + playerSize, y = y - playerSize},
-        {x = x + playerSize, y = y + playerSize}
-    }
+    local playerCorners = {{
+        x = x - playerSize,
+        y = y - playerSize
+    }, {
+        x = x - playerSize,
+        y = y + playerSize
+    }, {
+        x = x + playerSize,
+        y = y - playerSize
+    }, {
+        x = x + playerSize,
+        y = y + playerSize
+    }}
     for i, corner in ipairs(playerCorners) do
         if isIn(unpack(corner), pipeObject.x1, pipeObject.y1, pipeObject.width1, pipeObject.height1) then
             return true
