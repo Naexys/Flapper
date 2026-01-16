@@ -1,5 +1,4 @@
 -- File: main.lua
-
 -- Import scripts
 local pipe = require "src.Scripts.pipe"
 
@@ -10,7 +9,12 @@ love.graphics.set3D(false)
 local score = 0
 local playcount = 0
 local highscore = 0
-local player = { x = 0, y = 0, speed = 0, maxSpeed = 100 }
+local player = {
+    x = 0,
+    y = 0,
+    speed = 0,
+    maxSpeed = 100
+}
 
 local width_top, height_top = love.graphics.getDimensions("top")
 local width_bottom, height_bottom = love.graphics.getDimensions("bottom")
@@ -20,7 +24,10 @@ local touches = {}
 
 -- Deal with touch input
 function love.touchpressed(id, x, y, dx, dy, pressure)
-    touches[id] = { x = x, y = y }
+    touches[id] = {
+        x = x,
+        y = y
+    }
     player.speed = -100
 end
 
@@ -35,13 +42,13 @@ function love.load()
     player.y = height_top / 2
 end
 
--- Function to calculate each frame
-function love.update(dt)
+-- Function to update the player's position
+function movePlayer(dt)
     player.y = player.y + player.speed * dt
-    if player.y < 20 then
-        player.y = 20
-    elseif player.y > height_top - 20 then
-        player.y = height_top - 20
+    if player.y < (width_top / 20) then
+        player.y = (width_top / 20)
+    elseif player.y > height_top - (width_top / 20) then
+        player.y = height_top - (width_top / 20)
     end
     player.speed = player.speed + 100 * dt
     if player.speed > player.maxSpeed then
@@ -49,11 +56,22 @@ function love.update(dt)
     end
 end
 
+-- Function to draw the player
+function drawPlayer()
+    love.graphics.rectangle("fill", player.x - width_top / 20, player.y - width_top / 20, width_top / 10,
+        width_top / 10, 10, 10)
+end
+
+-- Function to calculate each frame
+function love.update(dt)
+    movePlayer(dt)
+end
+
 -- Function to draw the calculated frame
 function love.draw(screen)
     -- Draw on top screen
     if screen ~= "bottom" then
-        love.graphics.rectangle("fill", player.x - 19, player.y - 19, 38, 38, 10, 10)
+        drawPlayer()
     end
 
     -- Draw on bottom screen
