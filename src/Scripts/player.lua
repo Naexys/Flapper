@@ -13,6 +13,7 @@ function player.newPlayer()
     return playerObject
 end
 
+-- Function to handle player movement
 function player.movePlayer(playerObject, dt, screenHeight)
     playerObject.y = playerObject.y + playerObject.speed * dt
     if playerObject.y < playerObject.size then
@@ -26,6 +27,7 @@ function player.movePlayer(playerObject, dt, screenHeight)
     end
 end
 
+-- Function to draw the player on screen
 function player.drawPlayer(playerObject)
     love.graphics.rectangle("fill", playerObject.x - playerObject.size, playerObject.y - playerObject.size, (playerObject.size * 2),
         (playerObject.size * 2), 10, 10)

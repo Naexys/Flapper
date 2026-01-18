@@ -47,26 +47,6 @@ function love.load()
     playerObject.size = (widthTop / 40)
 end
 
--- -- Function to update the player's position
--- local function movePlayer(dt)
---     player.y = player.y + player.speed * dt
---     if player.y < player.size then
---         player.y = player.size
---     elseif player.y > heightTop - player.size then
---         player.y = heightTop - player.size
---     end
---     player.speed = player.speed + 200 * dt
---     if player.speed > player.maxSpeed then
---         player.speed = player.maxSpeed
---     end
--- end
-
--- -- Function to draw the player
--- local function drawPlayer()
---     love.graphics.rectangle("fill", player.x - player.size, player.y - player.size, (player.size * 2),
---         (player.size * 2), 10, 10)
--- end
-
 -- Function to handle pipes
 local function handlePipes(dt)
     if lastPipe == 0 then
