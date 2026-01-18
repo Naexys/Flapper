@@ -73,6 +73,7 @@ function pipe.isPipeColliding(x, y, playerSize, pipeObject)
     return false
 end
 
+-- Function to check for pipe end of life
 function pipe.shouldDestroy(pipeObject)
     if pipeObject.x1 < (0 - pipeObject.width1) or pipeObject.x2 < (0 - pipeObject.width2) then
         return true
