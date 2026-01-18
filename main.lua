@@ -1,6 +1,7 @@
 -- File: main.lua
 -- Import scripts
 local pipe = require "src.Scripts.pipe"
+local player = require "src.Scripts.player"
 
 -- Deactivate 3D mode
 love.graphics.set3D(false)
@@ -10,13 +11,7 @@ local gameState = "pause"
 local score = 0
 local playcount = 0
 local highscore = 0
-local player = {
-    x = 0,
-    y = 0,
-    speed = 0,
-    maxSpeed = 200,
-    size = 0
-}
+local playerObject = player.newPlayer()
 local pipes = {}
 local lastPipe = 0
 
@@ -33,7 +28,7 @@ function love.touchpressed(id, x, y, dx, dy, pressure)
         y = y
     }
     if gameState == "play" then
-        player.speed = -100
+        playerObject.speed = -100
     end
     if gameState ~= "gameOver" then
         gameState = "play"
@@ -47,29 +42,9 @@ end
 
 -- Function to initialize the game
 function love.load()
-    player.x = widthTop / 4
-    player.y = heightTop / 2
-    player.size = (widthTop / 40)
-end
-
--- Function to update the player's position
-local function movePlayer(dt)
-    player.y = player.y + player.speed * dt
-    if player.y < player.size then
-        player.y = player.size
-    elseif player.y > heightTop - player.size then
-        player.y = heightTop - player.size
-    end
-    player.speed = player.speed + 200 * dt
-    if player.speed > player.maxSpeed then
-        player.speed = player.maxSpeed
-    end
-end
-
--- Function to draw the player
-local function drawPlayer()
-    love.graphics.rectangle("fill", player.x - player.size, player.y - player.size, (player.size * 2),
-        (player.size * 2), 10, 10)
+    playerObject.x = widthTop / 4
+    playerObject.y = heightTop / 2
+    playerObject.size = (widthTop / 40)
 end
 
 -- Function to handle pipes
@@ -86,7 +61,7 @@ local function handlePipes(dt)
     local pipesToRemove = {}
     for i, p in ipairs(pipes) do
         pipe.movePipe(p, dt)
-        if pipe.isPipeColliding(player.x, player.y, player.size, p) then
+        if pipe.isPipeColliding(playerObject.x, playerObject.y, playerObject.size, p) then
             gameState = "gameOver"
         end
         if pipe.shouldDestroy(p) then
@@ -101,7 +76,7 @@ end
 -- Function to calculate each frame
 function love.update(dt)
     if gameState ~= "pause" then
-        movePlayer(dt)
+        player.movePlayer(playerObject, dt, heightTop)
     end
     if gameState == "play" then
         handlePipes(dt)
@@ -112,7 +87,7 @@ end
 function love.draw(screen)
     -- Draw on top screen
     if screen ~= "bottom" then
-        drawPlayer()
+        player.drawPlayer(playerObject)
         for i, p in ipairs(pipes) do
             pipe.drawPipe(p)
         end
