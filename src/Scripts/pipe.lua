@@ -1,4 +1,6 @@
 -- File: pipe.lua
+local assets = require "src.Scripts.assets"
+
 local pipe = {}
 -- Function to create and return a pipe object
 function pipe.newPipe(screenWidth, screenHeight)

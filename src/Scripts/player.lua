@@ -1,4 +1,6 @@
 -- File: player.lua
+local assets = require "src.Scripts.assets"
+
 local player = {}
 
 -- Function to create a new player
