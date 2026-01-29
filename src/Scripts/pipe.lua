@@ -30,8 +30,8 @@ end
 -- Function to return new pipe coordinates after movement
 function pipe.movePipe(pipeObject, dt)
     local pipeSpeed = 100
-    pipeObject.x1 = pipeObject.x1 - (100 * dt)
-    pipeObject.x2 = pipeObject.x2 - (100 * dt)
+    pipeObject.x1 = pipeObject.x1 - (pipeSpeed * dt)
+    pipeObject.x2 = pipeObject.x2 - (pipeSpeed * dt)
 end
 
 -- Function to draw the given pipe

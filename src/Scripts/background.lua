@@ -3,23 +3,35 @@ local assets = require "src.Scripts.assets"
 
 local background = {}
 
--- Function to create a new player
-function background.newBackground(screenHeight)
+-- Function to create a new backgroundObject
+function background.newBackground(screenWidth, screenHeight)
     local backgroundObject = {
         x = 0,
         y = 0,
-        height = screenHeight
+        height = screenHeight,
+        backgroundWidth = assets.background:getWidth() * (backgroundObject.height / assets.background:getHeight())
     }
     return backgroundObject
 end
 
--- Function to handle player movement
+-- Function to handle background movement
 function background.moveBackground(backgroundObject, dt, screenWidth)
     local backgroundSpeed = 75
+    backgroundObject.x = backgroundObject.x + (backgroundSpeed * dt)
 end
 
--- Function to draw the player on screen
+-- Function to draw the background on screen
 function background.drawBackground(backgroundObject)
+    local sizeFactor = backgroundObject.height / assets.background:getHeight()
+    love.draw(assets.background, backgroundObject.x, backgroundObject.y, 0, sizeFactor, sizeFactor)
+end
+
+-- Function check if the given backgroundObject should be destroyed
+function background.shouldDestroy(backgroundObject)
+    if (backgroundObject.x + backgroundObject.backgroundWidth < 0) then
+        return true
+    end
+    return false
 end
 
 return background

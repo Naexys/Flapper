@@ -31,8 +31,10 @@ end
 
 -- Function to draw the player on screen
 function player.drawPlayer(playerObject)
-    love.graphics.rectangle("fill", playerObject.x - playerObject.size, playerObject.y - playerObject.size, (playerObject.size * 2),
-        (playerObject.size * 2), 10, 10)
+    local xOffset = playerObject.x - playerObject.size
+    local yOffset = playerObject.y - playerObject.size
+    local sizeFactor = playerObject.size / assets.player:getHeight()
+    love.draw(assets.player, playerObject.x, playerObject.y, 0, sizeFactor, sizeFactor, xOffset, yOffset)
 end
 
 return player
