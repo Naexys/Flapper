@@ -36,8 +36,14 @@ end
 
 -- Function to draw the given pipe
 function pipe.drawPipe(pipeObject)
-    love.graphics.rectangle("fill", pipeObject.x1, pipeObject.y1, pipeObject.width1, pipeObject.height1, 5, 5)
-    love.graphics.rectangle("fill", pipeObject.x2, pipeObject.y2, pipeObject.width2, pipeObject.height2, 5, 5)
+    local sizeFactor = pipeObject.width1 / assets.pipe:getWidth()
+    local realWidth = (3 / 4) * (pipeObject.width1 / sizeFactor)
+    local realHeight = sizeFactor * assets.pipe:getHeight()
+    -- top pipe
+    love.graphics.draw(assets.pipe, pipeObject.x1, pipeObject.height1, 0, sizeFactor, -sizeFactor, (1 / 3) * realWidth,
+        -realHeight)
+    -- bottom pipe
+    love.graphics.draw(assets.pipe, pipeObject.x2, pipeObject.height2, 0, sizeFactor, sizeFactor, (1 / 3) * realWidth, 0)
 end
 
 -- Function to check if a point is in a rectangle
@@ -52,7 +58,7 @@ end
 
 -- Function to check for collision between the player and the given pipe
 function pipe.isPipeColliding(x, y, playerSize, pipeObject)
-    local playerCorners = {{
+    local playerCorners = { {
         x = x - playerSize,
         y = y - playerSize
     }, {
@@ -64,11 +70,20 @@ function pipe.isPipeColliding(x, y, playerSize, pipeObject)
     }, {
         x = x + playerSize,
         y = y + playerSize
-    }}
+    } }
     for i, corner in ipairs(playerCorners) do
+        local sizeFactor = pipeObject.width1 / assets.pipe:getWidth()
+        local headHeight = 12 * sizeFactor
+        local headWidth = 4 * sizeFactor
+        -- pipe body
         if isIn(corner.x, corner.y, pipeObject.x1, pipeObject.y1, pipeObject.width1, pipeObject.height1) then
             return true
         elseif isIn(corner.x, corner.y, pipeObject.x2, pipeObject.y2, pipeObject.width2, pipeObject.height2) then
+            return true
+            -- pipe head
+        elseif isIn(corner.x, corner.y, pipeObject.x1 - headWidth, pipeObject.height1 - headHeight, pipeObject.width1 + (2 * headWidth), headHeight) then
+            return true
+        elseif isIn(corner.x, corner.y, pipeObject.x2 - headWidth, pipeObject.y2, pipeObject.width2 + (2 * headWidth), headHeight) then
             return true
         end
     end

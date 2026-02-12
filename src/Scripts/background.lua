@@ -9,8 +9,9 @@ function background.newBackground(screenWidth, screenHeight)
         x = 0,
         y = 0,
         height = screenHeight,
-        backgroundWidth = assets.background:getWidth() * (backgroundObject.height / assets.background:getHeight())
+        backgroundWidth = 0
     }
+    backgroundObject.backgroundWidth = assets.background:getWidth() * (backgroundObject.height / assets.background:getHeight())
     return backgroundObject
 end
 
@@ -23,7 +24,7 @@ end
 -- Function to draw the background on screen
 function background.drawBackground(backgroundObject)
     local sizeFactor = backgroundObject.height / assets.background:getHeight()
-    love.draw(assets.background, backgroundObject.x, backgroundObject.y, 0, sizeFactor, sizeFactor)
+    love.graphics.draw(assets.background, backgroundObject.x, backgroundObject.y, 0, sizeFactor, sizeFactor)
 end
 
 -- Function check if the given backgroundObject should be destroyed
