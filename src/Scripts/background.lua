@@ -4,9 +4,9 @@ local assets = require "src.Scripts.assets"
 local background = {}
 
 -- Function to create a new backgroundObject
-function background.newBackground(screenWidth, screenHeight)
+function background.newBackground(screenHeight, _x)
     local backgroundObject = {
-        x = 0,
+        x = _x,
         y = 0,
         height = screenHeight,
         backgroundWidth = 0

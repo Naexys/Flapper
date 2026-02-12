@@ -2,9 +2,14 @@
 -- Import scripts
 local pipe = require "src.Scripts.pipe"
 local player = require "src.Scripts.player"
+local background = require "src.Scripts.background"
+local assets = require "src.Scripts.assets"
 
 -- Deactivate 3D mode
 love.graphics.set3D(false)
+
+local widthTop, heightTop = love.graphics.getDimensions("top")
+local widthBottom, heightBottom = love.graphics.getDimensions("bottom")
 
 -- Initialize variables
 local gameState = "pause"
@@ -13,10 +18,8 @@ local playcount = 0
 local highscore = 0
 local playerObject = player.newPlayer()
 local pipes = {}
+local backgrounds = { background.newBackground(heightTop, 0) }
 local lastPipe = 0
-
-local widthTop, heightTop = love.graphics.getDimensions("top")
-local widthBottom, heightBottom = love.graphics.getDimensions("bottom")
 
 -- Array to keep track of touches data
 local touches = {}
@@ -73,12 +76,31 @@ local function handlePipes(dt)
     end
 end
 
+-- Function to handle the background
+local function handleBackground(dt)
+    local bgToRemove = {}
+    for i, bg in ipairs(backgrounds) do
+        background.moveBackground(bg, dt, widthTop)
+        if background.shouldDestroy(bg) then
+            table.insert(bgToRemove, (i))
+            local lastEltId = #backgrounds
+            local sizeFactor = heightTop / assets.background:getHeight()
+            local x = backgrounds[lastEltId] + (assets.background:getWidth() * sizeFactor)
+            table.insert(backgrounds, background.newBackground(heightTop, x))
+        end
+    end
+    for i, id in ipairs(bgToRemove) do
+        table.remove(backgrounds, id)
+    end
+end
+
 -- Function to calculate each frame
 function love.update(dt)
     if gameState ~= "pause" then
         player.movePlayer(playerObject, dt, heightTop)
     end
     if gameState == "play" then
+        handleBackground(dt)
         handlePipes(dt)
     end
 end
@@ -87,6 +109,9 @@ end
 function love.draw(screen)
     -- Draw on top screen
     if screen ~= "bottom" then
+        for i, bg in ipairs(backgrounds) do
+            background.drawBackground(bg)
+        end
         player.drawPlayer(playerObject)
         for i, p in ipairs(pipes) do
             pipe.drawPipe(p)
