@@ -2,7 +2,7 @@
 Basic flappy bird clone for the nintendo 3ds family
 
 
-# Building for yourself
+## Building for yourself
 If you can't wait for the next release (which I strongly advise) you can build the game for yourself using the bundler (Windows : "bundle.bat", Linux : "bundle.sh")
 
 Just run the script and upload the obtained "bundle.zip" to this website
@@ -24,7 +24,7 @@ This last could be confusing so I want to be clear :
 - With 7zip installed you would go to "flapper-ready-to-bundle", highlight both items and select the 7zip option saying something like "add to flapper-ready-to-bundle.zip"
 
 
-# AI Usage
+## AI Usage
 I think it is important to be transparent on this topic
 
 Some AI was used during the making of this game :
@@ -33,7 +33,7 @@ Some AI was used during the making of this game :
 
 The list may expand (though my ego thinks I can do most of the work without using AI) but for now that's it.
 
-# Anti-Piracy Statement
+## Anti-Piracy Statement
 I do not support or condone piracy in any form.
 This project is intended for legal use on homebrew-enabled Nintendo 3DS consoles.
 I will not provide any information, guidance, or support regarding the modification of consoles, the use of pirated software, or the circumvention of copyright protections.
